@@ -1,6 +1,6 @@
 from django.db import models
 
-from users.models import NULLABLE
+from users.models import NULLABLE, User
 
 
 # Create your models here.
@@ -8,6 +8,7 @@ class Course(models.Model):
     title = models.CharField(max_length=150, verbose_name='название')
     preview = models.ImageField(upload_to='course_preview/', **NULLABLE, verbose_name='превью')
     description = models.TextField(verbose_name='описание')
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, **NULLABLE)
 
     def __str__(self):
         return f'{self.title}'
@@ -24,6 +25,7 @@ class Lesson(models.Model):
     preview = models.ImageField(upload_to='course_preview/', **NULLABLE, verbose_name='превью')
     description = models.TextField(verbose_name='описание')
     video_link = models.CharField(max_length=255, verbose_name='видео')
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, **NULLABLE)
 
     def __str__(self):
         return f'{self.title} ({self.course.title})'
